@@ -70,13 +70,13 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jLabelF2BuscarProducto = new javax.swing.JLabel();
         jLabelEmpresa = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButtonCompras = new javax.swing.JButton();
-        jButtonProductos = new javax.swing.JButton();
         jButtonCategorias = new javax.swing.JButton();
         jButtonProveedores = new javax.swing.JButton();
-        jLabelTextoCondiguracion = new javax.swing.JLabel();
         jButtonClientes = new javax.swing.JButton();
+        jButtonProductos = new javax.swing.JButton();
         jButtonUsuarios = new javax.swing.JButton();
+        jButtonCompras = new javax.swing.JButton();
+        jLabelTextoCondiguracion = new javax.swing.JLabel();
         jButtonReportes = new javax.swing.JButton();
         jButtonCerrarSesión = new javax.swing.JButton();
         jLabelMétodo = new javax.swing.JLabel();
@@ -148,20 +148,6 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jToolBar1.setBackground(new java.awt.Color(153, 255, 153));
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jButtonCompras.setText("Compras");
-        jButtonCompras.setFocusable(false);
-        jButtonCompras.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonCompras.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButtonCompras.addActionListener(this::jButtonComprasActionPerformed);
-        jToolBar1.add(jButtonCompras);
-
-        jButtonProductos.setText("Productos");
-        jButtonProductos.setFocusable(false);
-        jButtonProductos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonProductos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButtonProductos.addActionListener(this::jButtonProductosActionPerformed);
-        jToolBar1.add(jButtonProductos);
-
         jButtonCategorias.setText("Categorias");
         jButtonCategorias.setFocusable(false);
         jButtonCategorias.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -176,9 +162,6 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jButtonProveedores.addActionListener(this::jButtonProveedoresActionPerformed);
         jToolBar1.add(jButtonProveedores);
 
-        jLabelTextoCondiguracion.setText("CONFIGURACIÓN");
-        jToolBar1.add(jLabelTextoCondiguracion);
-
         jButtonClientes.setText("Clientes");
         jButtonClientes.setFocusable(false);
         jButtonClientes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -186,12 +169,29 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jButtonClientes.addActionListener(this::jButtonClientesActionPerformed);
         jToolBar1.add(jButtonClientes);
 
+        jButtonProductos.setText("Productos");
+        jButtonProductos.setFocusable(false);
+        jButtonProductos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonProductos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonProductos.addActionListener(this::jButtonProductosActionPerformed);
+        jToolBar1.add(jButtonProductos);
+
         jButtonUsuarios.setText("Usuarios");
         jButtonUsuarios.setFocusable(false);
         jButtonUsuarios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonUsuarios.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButtonUsuarios.addActionListener(this::jButtonUsuariosActionPerformed);
         jToolBar1.add(jButtonUsuarios);
+
+        jButtonCompras.setText("Compras");
+        jButtonCompras.setFocusable(false);
+        jButtonCompras.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonCompras.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonCompras.addActionListener(this::jButtonComprasActionPerformed);
+        jToolBar1.add(jButtonCompras);
+
+        jLabelTextoCondiguracion.setText("CONFIGURACIÓN");
+        jToolBar1.add(jLabelTextoCondiguracion);
 
         jButtonReportes.setText("Reportes");
         jButtonReportes.setFocusable(false);
@@ -393,275 +393,300 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
 
     
     private void configurarLogicaVentas() {
-        // 1. Configurar el modelo dinámico sobre tu jTableFactura existente
-        modeloFactura = new DefaultTableModel(
-            new Object[][]{},
-            new String[]{"Cód. Barras", "Corte de Carne", "Precio / KG", "Peso (KG)", "Subtotal"}
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Bloquear edición directa en celdas
-            }
-        };
-        jTableFactura.setModel(modeloFactura);
-        
-        // 2. Limpiar placeholders visuales por defecto
-        jLabelValor.setText("$ 0.00");
-        jLabelTotal.setText("$ 0.00");
-        jTextFieldPRODUCTOSELECCIONADO.setEditable(false);
-        jTextFieldPRECIOPORKILO.setEditable(false);
-        
-        // 3. Cargar el ComboBox de clientes de forma segura desde la Base de Datos
-        cargarClientes();
-        
-        // 4. Configurar eventos de interacción para el pesaje instantáneo
-        // Buscar producto cuando el operario escanee/digite y presione ENTER en el primer campo
-        jTextFieldPRODUCTOSELECCIONADO.setEditable(true); // Permitir que use este campo para escanear código
-        jTextFieldPRODUCTOSELECCIONADO.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscarProductoPorCodigo();
-            }
-        });
-        
-        // Calcular subtotal del corte e introducirlo a la JTable al presionar ENTER en Peso a Despachar
-        jTextFieldPeso.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarCorteALaFactura();
-            }
-        });
-    }
-    
-    /**
-     * Método corregido que soluciona el error de la columna c.nombre usando c.nombre_categoria
-     */
-    private void buscarProductoPorCodigo() {
-        String codigo = jTextFieldPRODUCTOSELECCIONADO.getText().trim();
-        if (codigo.isEmpty()) return;
-        
-        // SOLUCIÓN AL ERROR DE COLUMNA: Aquí mapeamos exactamente tus campos reales
-        String sql = "SELECT p.codigo_barras, p.nombre, p.precio_kg, p.stock_kg " +
-                     "FROM productos p " +
-                     "INNER JOIN categorias c ON p.id_categoria = c.id_categoria " +
-                     "WHERE p.codigo_barras = ? AND p.estado = 'Activo'";
-                     
-        try (Connection con = new conexion().conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            
-            ps.setString(1, codigo);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    codigoProductoActual = rs.getString("p.codigo_barras");
-                    jTextFieldPRODUCTOSELECCIONADO.setText(rs.getString("p.nombre"));
-                    jTextFieldPRECIOPORKILO.setText(String.valueOf(rs.getDouble("p.precio_kg")));
-                    stockActualProducto = rs.getDouble("p.stock_kg");
-                    
-                    // Foco automático al peso para agilizar la cola de clientes
-                    jTextFieldPeso.requestFocus();
-                } else {
-                    JOptionPane.showMessageDialog(this, "El producto no existe o está inactivo.", "Inventario", JOptionPane.WARNING_MESSAGE);
-                    limpiarSeccionBascula();
-                }
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+    // 1. Configurar el modelo dinámico sobre tu jTableFactura existente
+    modeloFactura = new DefaultTableModel(
+        new Object[][]{},
+        new String[]{"Cód. Barras", "Corte de Carne", "Precio / KG", "Peso (KG)", "Subtotal"}
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Bloquear edición directa en celdas
         }
+    };
+    jTableFactura.setModel(modeloFactura);
+    
+    // 2. Limpiar placeholders visuales por defecto
+    jLabelValor.setText("$ 0.00");
+    jLabelTotal.setText("$ 0.00");
+    jTextFieldPRODUCTOSELECCIONADO.setEditable(false);
+    jTextFieldPRECIOPORKILO.setEditable(false);
+    
+    // 3. Cargar el ComboBox de clientes de forma segura desde la Base de Datos
+    cargarClientes();
+    
+    // 4. Configurar eventos de interacción para el pesaje instantáneo
+    jTextFieldPRODUCTOSELECCIONADO.setEditable(true); // Permitir que use este campo para escanear código
+    jTextFieldPRODUCTOSELECCIONADO.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            buscarProductoPorCodigo();
+        }
+    });
+    
+    // Calcular subtotal del corte e introducirlo a la JTable al presionar ENTER en Peso a Despachar
+    jTextFieldPeso.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            agregarCorteALaFactura();
+        }
+    });
+}
+
+/**
+ * Método corregido que busca el producto mapeando los campos exactos de tu base de datos
+ */
+private void buscarProductoPorCodigo() {
+    String codigo = jTextFieldPRODUCTOSELECCIONADO.getText().trim();
+    if (codigo.isEmpty()) return;
+    
+    String sql = "SELECT p.codigo_barras, p.nombre, p.precio_kg, p.stock_kg " +
+                 "FROM productos p " +
+                 "INNER JOIN categorias c ON p.id_categoria = c.id_categoria " +
+                 "WHERE p.codigo_barras = ? AND p.estado = 'Activo'";
+                 
+    try (Connection con = new conexion().conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        
+        ps.setString(1, codigo);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                codigoProductoActual = rs.getString("p.codigo_barras");
+                jTextFieldPRODUCTOSELECCIONADO.setText(rs.getString("p.nombre"));
+                jTextFieldPRECIOPORKILO.setText(String.valueOf(rs.getDouble("p.precio_kg")));
+                stockActualProducto = rs.getDouble("p.stock_kg");
+                
+                // Foco automático al peso para agilizar la cola de clientes
+                jTextFieldPeso.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "El producto no existe o está inactivo.", "Inventario", JOptionPane.WARNING_MESSAGE);
+                limpiarSeccionBascula();
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+private void agregarCorteALaFactura() {
+    String pesoStr = jTextFieldPeso.getText().trim();
+    String precioStr = jTextFieldPRECIOPORKILO.getText().trim();
+    String producto = jTextFieldPRODUCTOSELECCIONADO.getText().trim();
+    
+    if (pesoStr.isEmpty() || codigoProductoActual.isEmpty() || precioStr.isEmpty()) {
+        return;
     }
     
-    private void agregarCorteALaFactura() {
-        String pesoStr = jTextFieldPeso.getText().trim();
-        String precioStr = jTextFieldPRECIOPORKILO.getText().trim();
-        String producto = jTextFieldPRODUCTOSELECCIONADO.getText().trim();
+    try {
+        double peso = Double.parseDouble(pesoStr);
+        double precio = Double.parseDouble(precioStr);
         
-        if (pesoStr.isEmpty() || codigoProductoActual.isEmpty() || precioStr.isEmpty()) {
+        if (peso <= 0) {
+            JOptionPane.showMessageDialog(this, "El peso ingresado debe ser mayor a 0.", "Báscula", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
-        try {
-            double peso = Double.parseDouble(pesoStr);
-            double precio = Double.parseDouble(precioStr);
-            
-            if (peso <= 0) {
-                JOptionPane.showMessageDialog(this, "El peso ingresado debe ser mayor a 0.", "Báscula", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            // Regla de Negocio: Validar que no se venda más de lo disponible en vitrinas
-            if (peso > stockActualProducto) {
-                JOptionPane.showMessageDialog(this, "No hay suficiente stock en vitrina. Disponible: " + stockActualProducto + " KG", "Caja", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            double subtotal = peso * precio;
-            jLabelValor.setText("$ " + String.format("%.2f", subtotal));
-            
-            // Si el producto ya se encuentra listado en el ticket, acumulamos los kilogramos despachados
-            for (int i = 0; i < jTableFactura.getRowCount(); i++) {
-                if (jTableFactura.getValueAt(i, 0).toString().equals(codigoProductoActual)) {
-                    double pesoExistente = (double) jTableFactura.getValueAt(i, 3);
-                    if ((pesoExistente + peso) > stockActualProducto) {
-                        JOptionPane.showMessageDialog(this, "El peso acumulado excede las existencias del inventario.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    double nuevoSubtotal = (pesoExistente + peso) * precio;
-                    jTableFactura.setValueAt(pesoExistente + peso, i, 3);
-                    jTableFactura.setValueAt(nuevoSubtotal, i, 4);
-                    recalcularTotalFactura();
-                    limpiarSeccionBascula();
+        // Regla de Negocio: Validar que no se venda más de lo disponible en vitrinas
+        if (peso > stockActualProducto) {
+            JOptionPane.showMessageDialog(this, "No hay suficiente stock en vitrina. Disponible: " + stockActualProducto + " KG", "Caja", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        double subtotal = peso * precio;
+        jLabelValor.setText("$ " + String.format("%.2f", subtotal));
+        
+        // Si el producto ya se encuentra listado en el ticket, acumulamos los kilogramos despachados
+        for (int i = 0; i < jTableFactura.getRowCount(); i++) {
+            if (jTableFactura.getValueAt(i, 0).toString().equals(codigoProductoActual)) {
+                double pesoExistente = (double) jTableFactura.getValueAt(i, 3);
+                if ((pesoExistente + peso) > stockActualProducto) {
+                    JOptionPane.showMessageDialog(this, "El peso acumulado excede las existencias del inventario.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                double nuevoSubtotal = (pesoExistente + peso) * precio;
+                jTableFactura.setValueAt(pesoExistente + peso, i, 3);
+                jTableFactura.setValueAt(nuevoSubtotal, i, 4);
+                recalcularTotalFactura();
+                limpiarSeccionBascula();
+                return;
             }
-            
-            // Agregar nuevo renglón
-            modeloFactura.addRow(new Object[]{codigoProductoActual, producto, precio, peso, subtotal});
-            recalcularTotalFactura();
-            limpiarSeccionBascula();
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Verifique el formato del peso ingresado.", "Error de conversión", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void recalcularTotalFactura() {
-        totalFactura = 0.0;
-        for (int i = 0; i < modeloFactura.getRowCount(); i++) {
-            totalFactura += (double) modeloFactura.getValueAt(i, 4);
-        }
-        jLabelTotal.setText("$ " + String.format("%.2f", totalFactura));
-    }
-    
-    private void cargarClientes() {
-        jComboBoxCliente.removeAllItems();
-        jComboBoxCliente.addItem("000000 - Cliente General"); // Opción rápida de caja por defecto
-        
-        String sql = "SELECT cedula, nombre FROM clientes ORDER BY nombre ASC";
-        try (Connection con = new conexion().conectar();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                jComboBoxCliente.addItem(rs.getString("cedula") + " - " + rs.getString("nombre"));
-            }
-        } catch (SQLException e) {
-            System.err.println("No se pudo conectar a la tabla de clientes: " + e.getMessage());
-        }
-    }
-    
-    private int obtenerIdClientePorCedula() {
-        String comboVal = jComboBoxCliente.getSelectedItem() != null ? jComboBoxCliente.getSelectedItem().toString() : "000000";
-        if (comboVal.startsWith("000000")) return 1; // ID Genérico o por defecto en la BD
-        
-        String cedula = comboVal.split(" - ")[0].trim();
-        String sql = "SELECT id_cliente FROM clientes WHERE cedula = ?";
-        try (Connection con = new conexion().conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, cedula);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return rs.getInt("id_cliente");
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return 1;
-    }
-    
-    /**
-     * Transacción ACID atómica que unifica la cabecera, los ítems vendidos y descuenta existencias
-     */
-    private void procesarPagoCompleto(String metodoPago) {
-        if (jTableFactura.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "La factura actual no contiene ningún elemento.", "Caja Vacía", JOptionPane.WARNING_MESSAGE);
-            return;
         }
         
-        int idCliente = obtenerIdClientePorCedula();
-        int idUsuario = 1; // Ajustar dinámicamente según sesión iniciada
-        
-        Connection con = null;
-        PreparedStatement psVenta = null;
-        PreparedStatement psDetalle = null;
-        PreparedStatement psStock = null;
-        
-        try {
-            con = new conexion().conectar();
-            con.setAutoCommit(false); // Evita escrituras incompletas si hay cortes de luz o fallos
-            
-            // 1. Guardar Maestro de Venta incluyendo el método de pago elegido por botón
-            String sqlVenta = "INSERT INTO ventas (id_cliente, id_usuario, fecha, total, metodo_pago) VALUES (?, ?, NOW(), ?, ?)";
-            psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
-            psVenta.setInt(1, idCliente);
-            psVenta.setInt(2, idUsuario);
-            psVenta.setDouble(3, totalFactura);
-            psVenta.setString(4, metodoPago);
-            psVenta.executeUpdate();
-            
-            int idVenta = 1;
-            try (ResultSet generatedKeys = psVenta.getGeneratedKeys()) {
-                if (generatedKeys.next()) idVenta = generatedKeys.getInt(1);
-            }
-            
-            // 2. Procesar inserciones en lote y actualización física de stock en KG
-            String sqlDetalle = "INSERT INTO detalle_ventas (id_venta, codigo_barras, cantidad_kg, precio_venta) VALUES (?, ?, ?, ?)";
-            String sqlStock = "UPDATE productos SET stock_kg = stock_kg - ? WHERE codigo_barras = ?";
-            
-            psDetalle = con.prepareStatement(sqlDetalle);
-            psStock = con.prepareStatement(sqlStock);
-            
-            for (int i = 0; i < jTableFactura.getRowCount(); i++) {
-                String cod = jTableFactura.getValueAt(i, 0).toString();
-                double peso = (double) jTableFactura.getValueAt(i, 3);
-                double prec = (double) jTableFactura.getValueAt(i, 2);
-                
-                psDetalle.setInt(1, idVenta);
-                psDetalle.setString(2, cod);
-                psDetalle.setDouble(3, peso);
-                psDetalle.setDouble(4, prec);
-                psDetalle.addBatch();
-                
-                psStock.setDouble(1, peso);
-                psStock.setString(2, cod);
-                psStock.addBatch();
-            }
-            
-            psDetalle.executeBatch();
-            psStock.executeBatch();
-            
-            con.commit(); // Confirmación exitosa en bloque
-            JOptionPane.showMessageDialog(this, "¡Venta pagada con " + metodoPago + " exitosamente!", "Facturación", JOptionPane.INFORMATION_MESSAGE);
-            limpiarFormularioCompleto();
-            
-        } catch (SQLException e) {
-            if (con != null) {
-                try { con.rollback(); } catch (SQLException ex) { logger.severe(ex.getMessage()); }
-            }
-            JOptionPane.showMessageDialog(this, "Error procesando el cobro en el motor: " + e.getMessage(), "Error Transacción", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            try {
-                if (psVenta != null) psVenta.close();
-                if (psDetalle != null) psDetalle.close();
-                if (psStock != null) psStock.close();
-                if (con != null) con.close();
-            } catch (SQLException e) { logger.severe(e.getMessage()); }
-        }
-    }
-    
-    private void limpiarSeccionBascula() {
-        jTextFieldPRODUCTOSELECCIONADO.setText("");
-        jTextFieldPRECIOPORKILO.setText("");
-        jTextFieldPeso.setText("");
-        jLabelValor.setText("$ 0.00");
-        codigoProductoActual = "";
-        stockActualProducto = 0.0;
-        jTextFieldPRODUCTOSELECCIONADO.requestFocus();
-    }
-    
-    private void limpiarFormularioCompleto() {
+        // Agregar nuevo renglón
+        modeloFactura.addRow(new Object[]{codigoProductoActual, producto, precio, peso, subtotal});
+        recalcularTotalFactura();
         limpiarSeccionBascula();
-        modeloFactura.setRowCount(0);
-        jLabelTotal.setText("$ 0.00");
-        totalFactura = 0.0;
-        if (jComboBoxCliente.getItemCount() > 0) jComboBoxCliente.setSelectedIndex(0);
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Verifique el formato del peso ingresado.", "Error de conversión", JOptionPane.ERROR_MESSAGE);
     }
+}
+
+private void recalcularTotalFactura() {
+    totalFactura = 0.0;
+    for (int i = 0; i < modeloFactura.getRowCount(); i++) {
+        totalFactura += (double) modeloFactura.getValueAt(i, 4);
+    }
+    jLabelTotal.setText("$ " + String.format("%.2f", totalFactura));
+}
+
+private void cargarClientes() {
+    jComboBoxCliente.removeAllItems();
+    jComboBoxCliente.addItem("000000 - Cliente General"); // Opción rápida de caja por defecto
+    
+    String sql = "SELECT cedula, nombre FROM clientes ORDER BY nombre ASC";
+    try (Connection con = new conexion().conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            jComboBoxCliente.addItem(rs.getString("cedula") + " - " + rs.getString("nombre"));
+        }
+    } catch (SQLException e) {
+        System.err.println("No se pudo conectar a la tabla de clientes: " + e.getMessage());
+    }
+}
+
+private int obtenerIdClientePorCedula() {
+    String comboVal = jComboBoxCliente.getSelectedItem() != null ? jComboBoxCliente.getSelectedItem().toString() : "000000";
+    if (comboVal.startsWith("000000")) return 1; // ID Genérico de control (Asegúrate de tener el ID 1 creado en tu BD)
+    
+    String cedula = comboVal.split(" - ")[0].trim();
+    String sql = "SELECT id_cliente FROM clientes WHERE cedula = ?";
+    try (Connection con = new conexion().conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, cedula);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt("id_cliente");
+        }
+    } catch (SQLException e) {
+        System.err.println(e.getMessage());
+    }
+    return 1;
+}
+
+/**
+ * Transacción ACID atómica que guarda cabecera, ítems detallados basados en la estructura real y actualiza stocks
+ */
+private void procesarPagoCompleto(String metodoPago) {
+    if (jTableFactura.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(this, "La factura actual no contiene ningún elemento.", "Caja Vacía", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    int idCliente = obtenerIdClientePorCedula();
+    int idUsuario = 1; // Ajustar dinámicamente según sesión iniciada
+    
+    Connection con = null;
+    PreparedStatement psVenta = null;
+    PreparedStatement psDetalle = null;
+    PreparedStatement psStock = null;
+    PreparedStatement psBuscarId = null; 
+    
+    try {
+        con = new conexion().conectar();
+        con.setAutoCommit(false); 
+        
+        // 1. Guardar Maestro de Venta
+        String sqlVenta = "INSERT INTO ventas (id_cliente, id_usuario, fecha, total, metodo_pago) VALUES (?, ?, NOW(), ?, ?)";
+        psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
+        psVenta.setInt(1, idCliente);
+        psVenta.setInt(2, idUsuario);
+        psVenta.setDouble(3, totalFactura);
+        psVenta.setString(4, metodoPago);
+        psVenta.executeUpdate();
+        
+        int idVenta = 1;
+        try (ResultSet generatedKeys = psVenta.getGeneratedKeys()) {
+            if (generatedKeys.next()) idVenta = generatedKeys.getInt(1);
+        }
+        
+        // 2. Sentencias SQL adaptadas a la estructura real de tu BD
+        String sqlBuscarId = "SELECT id_producto FROM productos WHERE codigo_barras = ?";
+        String sqlDetalle = "INSERT INTO detalle_venta (id_venta, id_producto, peso_kg, precio_kg, subtotal) VALUES (?, ?, ?, ?, ?)";
+        String sqlStock = "UPDATE productos SET stock_kg = stock_kg - ? WHERE codigo_barras = ?";
+        
+        psBuscarId = con.prepareStatement(sqlBuscarId);
+        psDetalle = con.prepareStatement(sqlDetalle);
+        psStock = con.prepareStatement(sqlStock);
+        
+        // 3. Procesar las filas del JTable
+        for (int i = 0; i < jTableFactura.getRowCount(); i++) {
+            String codBarras = jTableFactura.getValueAt(i, 0).toString();
+            double precioKg = (double) jTableFactura.getValueAt(i, 2);
+            double pesoKg = (double) jTableFactura.getValueAt(i, 3);
+            double subtotal = (double) jTableFactura.getValueAt(i, 4);
+            
+            // Buscar id_producto numérico desde el código de barras asignado
+            psBuscarId.setString(1, codBarras);
+            int idProducto = 0;
+            try (ResultSet rsId = psBuscarId.executeQuery()) {
+                if (rsId.next()) {
+                    idProducto = rsId.getInt("id_producto");
+                } else {
+                    throw new SQLException("No se encontró el ID interno para el producto: " + codBarras);
+                }
+            }
+            
+            // Parámetros de inserción detallada
+            psDetalle.setInt(1, idVenta);
+            psDetalle.setInt(2, idProducto);
+            psDetalle.setDouble(3, pesoKg);
+            psDetalle.setDouble(4, precioKg);
+            psDetalle.setDouble(5, subtotal);
+            psDetalle.addBatch();
+            
+            // Parámetros de actualización de inventarios
+            psStock.setDouble(1, pesoKg);
+            psStock.setString(2, codBarras);
+            psStock.addBatch();
+        }
+        
+        psDetalle.executeBatch();
+        psStock.executeBatch();
+        
+        con.commit(); 
+        JOptionPane.showMessageDialog(this, "¡Venta pagada con " + metodoPago + " exitosamente!", "Facturación", JOptionPane.INFORMATION_MESSAGE);
+        limpiarFormularioCompleto();
+        
+    } catch (SQLException e) {
+        if (con != null) {
+            try { 
+                con.rollback(); 
+                System.out.println("Transacción deshacedora ejecutada correctamente.");
+            } catch (SQLException ex) { 
+                System.err.println("Error ejecutando rollback: " + ex.getMessage()); 
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Error procesando el cobro en el motor: " + e.getMessage(), "Error Transacción", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (psBuscarId != null) psBuscarId.close();
+            if (psVenta != null) psVenta.close();
+            if (psDetalle != null) psDetalle.close();
+            if (psStock != null) psStock.close();
+            if (con != null) con.close();
+        } catch (SQLException e) { 
+            System.err.println("Error al liberar recursos: " + e.getMessage()); 
+        }
+    }
+}
+
+private void limpiarSeccionBascula() {
+    jTextFieldPRODUCTOSELECCIONADO.setText("");
+    jTextFieldPRECIOPORKILO.setText("");
+    jTextFieldPeso.setText("");
+    jLabelValor.setText("$ 0.00");
+    codigoProductoActual = "";
+    stockActualProducto = 0.0;
+    jTextFieldPRODUCTOSELECCIONADO.requestFocus();
+}
+
+private void limpiarFormularioCompleto() {
+    limpiarSeccionBascula();
+    modeloFactura.setRowCount(0);
+    jLabelTotal.setText("$ 0.00");
+    totalFactura = 0.0;
+    if (jComboBoxCliente.getItemCount() > 0) jComboBoxCliente.setSelectedIndex(0);
+}
     
     private void jTextFieldPRECIOPORKILOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPRECIOPORKILOActionPerformed
         // TODO add your handling code here:
