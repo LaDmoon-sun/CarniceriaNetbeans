@@ -52,7 +52,6 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jLabelPRODUCTOSELECCIONADO = new javax.swing.JLabel();
         jLabelPRECIOPORKILO = new javax.swing.JLabel();
         jTextFieldPRECIOPORKILO = new javax.swing.JTextField();
-        jTextFieldPRODUCTOSELECCIONADO = new javax.swing.JTextField();
         jLabelPESOADESPACHAR = new javax.swing.JLabel();
         jTextFieldPeso = new javax.swing.JTextField();
         jLabelVALORTOTALDELCORTE = new javax.swing.JLabel();
@@ -62,8 +61,8 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableFactura = new javax.swing.JTable();
         jLabelPÁGINADECIERREYMÉTODOSDEPAGO = new javax.swing.JLabel();
-        jComboBoxCliente = new javax.swing.JComboBox<>();
-        jLabelCliente = new javax.swing.JLabel();
+        jComboBoxClienteCedula = new javax.swing.JComboBox<>();
+        jLabelClienteCedula = new javax.swing.JLabel();
         jLabelATAJOSTECLADO = new javax.swing.JLabel();
         jButtonEfectivo = new javax.swing.JButton();
         jLabelF1NuevaVenta = new javax.swing.JLabel();
@@ -85,6 +84,9 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jButtonNequi = new javax.swing.JButton();
         jLabelF4CerrarCajaTurno = new javax.swing.JLabel();
         jLabelTOTALAPAGAR = new javax.swing.JLabel();
+        jLabelNdC = new javax.swing.JLabel();
+        jLabelNombredeC = new javax.swing.JLabel();
+        jComboBoxPRODUCTOSELECCIONADO = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,8 +101,6 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jLabelPRECIOPORKILO.setText("PRECIO POR KILO:");
 
         jTextFieldPRECIOPORKILO.addActionListener(this::jTextFieldPRECIOPORKILOActionPerformed);
-
-        jTextFieldPRODUCTOSELECCIONADO.addActionListener(this::jTextFieldPRODUCTOSELECCIONADOActionPerformed);
 
         jLabelPESOADESPACHAR.setText("PESO A DESPACHAR");
 
@@ -129,10 +129,10 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
 
         jLabelPÁGINADECIERREYMÉTODOSDEPAGO.setText("PÁGINA DE CIERRE Y MÉTODOS DE PAGO");
 
-        jComboBoxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxCliente.addActionListener(this::jComboBoxClienteActionPerformed);
+        jComboBoxClienteCedula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxClienteCedula.addActionListener(this::jComboBoxClienteCedulaActionPerformed);
 
-        jLabelCliente.setText("Cliente:");
+        jLabelClienteCedula.setText("Cliente:");
 
         jLabelATAJOSTECLADO.setText("ATAJOS TECLADO:");
 
@@ -221,6 +221,12 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
 
         jLabelTOTALAPAGAR.setText("TOTAL A PAGAR:");
 
+        jLabelNdC.setText("Nombre de Cliente");
+
+        jLabelNombredeC.setText("N");
+
+        jComboBoxPRODUCTOSELECCIONADO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -241,34 +247,39 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabelCliente)
-                                            .addComponent(jLabelMétodo))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jButtonEfectivo)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jButtonTarjeta)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButtonNequi))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabelF1NuevaVenta)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabelF2BuscarProducto)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabelF3IngresarMerma)))
+                                        .addComponent(jLabelF3IngresarMerma))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelClienteCedula)
+                                            .addComponent(jLabelMétodo))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jComboBoxClienteCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabelNdC))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jButtonEfectivo)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jButtonTarjeta)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButtonNequi)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabelNombredeC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(35, 35, 35)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLabelTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabelTOTALAPAGAR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabelF4CerrarCajaTurno))))
+                                        .addComponent(jLabelTOTALAPAGAR)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabelF4CerrarCajaTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(21, 21, 21))))
                             .addComponent(jLabelPÁGINADECIERREYMÉTODOSDEPAGO)
                             .addComponent(jLabelBÁSCULA)
                             .addComponent(jLabelDETALLEDELAFACTURAACTUAL)
@@ -286,76 +297,79 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
                                             .addComponent(jLabelPESOADESPACHAR))
                                         .addGap(18, 18, 18)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextFieldPRECIOPORKILO, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                                        .addComponent(jTextFieldPRODUCTOSELECCIONADO))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(128, 128, 128)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabelValor, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabelVALORTOTALDELCORTE)))))
+                                            .addComponent(jLabelVALORTOTALDELCORTE)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jComboBoxPRODUCTOSELECCIONADO, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTextFieldPRECIOPORKILO, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabelEmpresa))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jLabelEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTextomenu)
-                    .addComponent(jLabelBÁSCULA))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPRODUCTOSELECCIONADO)
-                            .addComponent(jTextFieldPRODUCTOSELECCIONADO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabelTextomenu)
+                            .addComponent(jLabelBÁSCULA))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabelPRODUCTOSELECCIONADO)
+                                    .addComponent(jComboBoxPRODUCTOSELECCIONADO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabelPRECIOPORKILO)
+                                    .addComponent(jTextFieldPRECIOPORKILO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabelPESOADESPACHAR)
+                                    .addComponent(jLabelVALORTOTALDELCORTE))
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextFieldPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelValor))
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabelDETALLEDELAFACTURAACTUAL)
+                                .addGap(7, 7, 7)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelPÁGINADECIERREYMÉTODOSDEPAGO)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPRECIOPORKILO)
-                            .addComponent(jTextFieldPRECIOPORKILO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
+                            .addComponent(jLabelClienteCedula)
+                            .addComponent(jComboBoxClienteCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTOTALAPAGAR)
+                            .addComponent(jLabelNdC)
+                            .addComponent(jLabelTotal)
+                            .addComponent(jLabelNombredeC))
+                        .addGap(65, 65, 65))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPESOADESPACHAR)
-                            .addComponent(jLabelVALORTOTALDELCORTE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelValor))
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabelDETALLEDELAFACTURAACTUAL)
-                        .addGap(7, 7, 7)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelPÁGINADECIERREYMÉTODOSDEPAGO)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCliente)
-                    .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTOTALAPAGAR))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonTarjeta)
-                        .addComponent(jButtonNequi)
-                        .addComponent(jLabelTotal))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelMétodo)
-                        .addComponent(jButtonEfectivo)))
-                .addGap(19, 19, 19)
+                            .addComponent(jButtonEfectivo)
+                            .addComponent(jLabelMétodo)
+                            .addComponent(jButtonTarjeta)
+                            .addComponent(jButtonNequi))
+                        .addGap(23, 23, 23)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelATAJOSTECLADO)
                     .addComponent(jLabelF1NuevaVenta)
                     .addComponent(jLabelF2BuscarProducto)
                     .addComponent(jLabelF3IngresarMerma)
                     .addComponent(jLabelF4CerrarCajaTurno))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -364,17 +378,11 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -391,6 +399,11 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+
+/**
+ * Método corregido que busca el producto mapeando los campos exactos de tu base de datos
+ */
     
     private void configurarLogicaVentas() {
     // 1. Configurar el modelo dinámico sobre tu jTableFactura existente
@@ -400,7 +413,7 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
     ) {
         @Override
         public boolean isCellEditable(int row, int column) {
-            return false; // Bloquear edición directa en celdas
+            return false; 
         }
     };
     jTableFactura.setModel(modeloFactura);
@@ -408,20 +421,14 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
     // 2. Limpiar placeholders visuales por defecto
     jLabelValor.setText("$ 0.00");
     jLabelTotal.setText("$ 0.00");
-    jTextFieldPRODUCTOSELECCIONADO.setEditable(false);
     jTextFieldPRECIOPORKILO.setEditable(false);
     
     // 3. Cargar el ComboBox de clientes de forma segura desde la Base de Datos
     cargarClientes();
     
-    // 4. Configurar eventos de interacción para el pesaje instantáneo
-    jTextFieldPRODUCTOSELECCIONADO.setEditable(true); // Permitir que use este campo para escanear código
-    jTextFieldPRODUCTOSELECCIONADO.addActionListener(new java.awt.event.ActionListener() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            buscarProductoPorCodigo();
-        }
-    });
+    // 4. Configurar el nuevo ComboBox de productos como buscador interactivo
+    jComboBoxPRODUCTOSELECCIONADO.setEditable(true); 
+    configurarBuscadorProductos();
     
     // Calcular subtotal del corte e introducirlo a la JTable al presionar ENTER en Peso a Despachar
     jTextFieldPeso.addActionListener(new java.awt.event.ActionListener() {
@@ -432,46 +439,117 @@ public class VistaGeneralPuntodeVentayPesajes extends javax.swing.JFrame {
     });
 }
 
-/**
- * Método corregido que busca el producto mapeando los campos exactos de tu base de datos
- */
-private void buscarProductoPorCodigo() {
-    String codigo = jTextFieldPRODUCTOSELECCIONADO.getText().trim();
-    if (codigo.isEmpty()) return;
+private void configurarBuscadorProductos() {
+    jComboBoxPRODUCTOSELECCIONADO.removeAllItems();
+    // Elemento por defecto para dejar la sección en blanco
+    jComboBoxPRODUCTOSELECCIONADO.addItem("- Seleccione Producto -");
     
-    String sql = "SELECT p.codigo_barras, p.nombre, p.precio_kg, p.stock_kg " +
-                 "FROM productos p " +
-                 "INNER JOIN categorias c ON p.id_categoria = c.id_categoria " +
-                 "WHERE p.codigo_barras = ? AND p.estado = 'Activo'";
-                 
+    // Cargar inicialmente todos los productos activos
+    String sql = "SELECT nombre FROM productos WHERE estado = 'Activo' ORDER BY nombre ASC";
+    try (Connection con = new conexion().conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            jComboBoxPRODUCTOSELECCIONADO.addItem(rs.getString("nombre"));
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al cargar productos: " + e.getMessage());
+    }
+
+    // Configurar el autocompletado en tiempo real al escribir
+    final javax.swing.JTextField tf = (javax.swing.JTextField) jComboBoxPRODUCTOSELECCIONADO.getEditor().getEditorComponent();
+    tf.addKeyListener(new java.awt.event.KeyAdapter() {
+        @Override
+        public void keyReleased(java.awt.event.KeyEvent e) {
+            if (e.getKeyCode() == java.awt.event.KeyEvent.VK_UP || 
+                e.getKeyCode() == java.awt.event.KeyEvent.VK_DOWN || 
+                e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                return;
+            }
+            
+            String texto = tf.getText().trim();
+            jComboBoxPRODUCTOSELECCIONADO.removeAllItems();
+            
+            // Si está vacío o es el por defecto, mantener la opción base
+            if (texto.isEmpty() || texto.equals("- Seleccione Producto -")) {
+                jComboBoxPRODUCTOSELECCIONADO.addItem("- Seleccione Producto -");
+            }
+            
+            String sqlFiltrar = "SELECT nombre FROM productos WHERE nombre LIKE ? AND estado = 'Activo' ORDER BY nombre ASC";
+            try (Connection con = new conexion().conectar();
+                 PreparedStatement ps = con.prepareStatement(sqlFiltrar)) {
+                ps.setString(1, "%" + texto + "%");
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        jComboBoxPRODUCTOSELECCIONADO.addItem(rs.getString("nombre"));
+                    }
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al filtrar productos: " + ex.getMessage());
+            }
+            
+            tf.setText(texto);
+            jComboBoxPRODUCTOSELECCIONADO.showPopup();
+        }
+    });
+
+    // Evento para detectar cuándo seleccionan un producto
+    jComboBoxPRODUCTOSELECCIONADO.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            cargarDatosProductoSeleccionado();
+        }
+    });
+}
+
+private void cargarDatosProductoSeleccionado() {
+    if (jComboBoxPRODUCTOSELECCIONADO.getSelectedItem() == null) return;
+
+    String productoSeleccionado = jComboBoxPRODUCTOSELECCIONADO.getSelectedItem().toString().trim();
+    
+    // Si se selecciona la opción por defecto, vaciar campos y salir
+    if (productoSeleccionado.isEmpty() || productoSeleccionado.equals("- Seleccione Producto -")) {
+        jTextFieldPRECIOPORKILO.setText("");
+        codigoProductoActual = "";
+        stockActualProducto = 0.0;
+        return;
+    }
+
+    String sql = "SELECT codigo_barras, precio_kg, stock_kg FROM productos WHERE nombre = ? AND estado = 'Activo'";
     try (Connection con = new conexion().conectar();
          PreparedStatement ps = con.prepareStatement(sql)) {
         
-        ps.setString(1, codigo);
+        ps.setString(1, productoSeleccionado);
         try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
-                codigoProductoActual = rs.getString("p.codigo_barras");
-                jTextFieldPRODUCTOSELECCIONADO.setText(rs.getString("p.nombre"));
-                jTextFieldPRECIOPORKILO.setText(String.valueOf(rs.getDouble("p.precio_kg")));
-                stockActualProducto = rs.getDouble("p.stock_kg");
-                
-                // Foco automático al peso para agilizar la cola de clientes
-                jTextFieldPeso.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(this, "El producto no existe o está inactivo.", "Inventario", JOptionPane.WARNING_MESSAGE);
-                limpiarSeccionBascula();
+                codigoProductoActual = rs.getString("codigo_barras");
+                jTextFieldPRECIOPORKILO.setText(String.valueOf(rs.getDouble("precio_kg")));
+                stockActualProducto = rs.getDouble("stock_kg");
             }
         }
     } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+        System.err.println("Error al cargar datos del producto: " + e.getMessage());
     }
 }
 
 private void agregarCorteALaFactura() {
     String pesoStr = jTextFieldPeso.getText().trim();
     String precioStr = jTextFieldPRECIOPORKILO.getText().trim();
-    String producto = jTextFieldPRODUCTOSELECCIONADO.getText().trim();
     
+    // 1. Validar que haya una selección válida en el ComboBox
+    if (jComboBoxPRODUCTOSELECCIONADO.getSelectedItem() == null) {
+        return;
+    }
+    String producto = jComboBoxPRODUCTOSELECCIONADO.getSelectedItem().toString().trim();
+    
+    // CORRECCIÓN: Evitar que se agregue la fila por defecto a la factura
+    if (producto.equals("- Seleccione Producto -") || producto.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto válido.", "Báscula", JOptionPane.WARNING_MESSAGE);
+        jComboBoxPRODUCTOSELECCIONADO.requestFocus();
+        return;
+    }
+    
+    // 2. Validar que los campos críticos no estén vacíos
     if (pesoStr.isEmpty() || codigoProductoActual.isEmpty() || precioStr.isEmpty()) {
         return;
     }
@@ -494,7 +572,7 @@ private void agregarCorteALaFactura() {
         double subtotal = peso * precio;
         jLabelValor.setText("$ " + String.format("%.2f", subtotal));
         
-        // Si el producto ya se encuentra listado en el ticket, acumulamos los kilogramos despachados
+        // 3. Si el producto ya se encuentra listado en el ticket, acumulamos los kilogramos despachados
         for (int i = 0; i < jTableFactura.getRowCount(); i++) {
             if (jTableFactura.getValueAt(i, 0).toString().equals(codigoProductoActual)) {
                 double pesoExistente = (double) jTableFactura.getValueAt(i, 3);
@@ -511,7 +589,7 @@ private void agregarCorteALaFactura() {
             }
         }
         
-        // Agregar nuevo renglón
+        // 4. Agregar nuevo renglón a la tabla usando la variable 'producto' obtenida del combo
         modeloFactura.addRow(new Object[]{codigoProductoActual, producto, precio, peso, subtotal});
         recalcularTotalFactura();
         limpiarSeccionBascula();
@@ -530,26 +608,107 @@ private void recalcularTotalFactura() {
 }
 
 private void cargarClientes() {
-    jComboBoxCliente.removeAllItems();
-    jComboBoxCliente.addItem("000000 - Cliente General"); // Opción rápida de caja por defecto
-    
-    String sql = "SELECT cedula, nombre FROM clientes ORDER BY nombre ASC";
+    jComboBoxClienteCedula.removeAllItems();
+    jComboBoxClienteCedula.addItem("000000"); // Opción rápida de caja por defecto
+    jComboBoxClienteCedula.setEditable(true); // Permitir escribir para buscar
+
+    // Cargar inicialmente todas las cédulas disponibles
+    String sql = "SELECT cedula FROM clientes ORDER BY cedula ASC";
     try (Connection con = new conexion().conectar();
          PreparedStatement ps = con.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
         while (rs.next()) {
-            jComboBoxCliente.addItem(rs.getString("cedula") + " - " + rs.getString("nombre"));
+            jComboBoxClienteCedula.addItem(rs.getString("cedula"));
         }
     } catch (SQLException e) {
         System.err.println("No se pudo conectar a la tabla de clientes: " + e.getMessage());
     }
+
+    // Configurar el autocompletado e interacción en tiempo real al escribir
+    final javax.swing.JTextField tf = (javax.swing.JTextField) jComboBoxClienteCedula.getEditor().getEditorComponent();
+    tf.addKeyListener(new java.awt.event.KeyAdapter() {
+        @Override
+        public void keyReleased(java.awt.event.KeyEvent e) {
+            // Ignorar flechas de navegación y Enter
+            if (e.getKeyCode() == java.awt.event.KeyEvent.VK_UP || 
+                e.getKeyCode() == java.awt.event.KeyEvent.VK_DOWN || 
+                e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                return;
+            }
+            
+            String texto = tf.getText().trim();
+            jComboBoxClienteCedula.removeAllItems();
+            
+            // Si está vacío, reponer la opción genérica por defecto
+            if (texto.isEmpty()) {
+                jComboBoxClienteCedula.addItem("000000");
+            }
+
+            // Filtrar las cédulas que coincidan con lo que digita el cajero
+            String sqlFiltrar = "SELECT cedula FROM clientes WHERE cedula LIKE ? ORDER BY cedula ASC";
+            try (Connection con = new conexion().conectar();
+                 PreparedStatement ps = con.prepareStatement(sqlFiltrar)) {
+                ps.setString(1, "%" + texto + "%");
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        jComboBoxClienteCedula.addItem(rs.getString("cedula"));
+                    }
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al filtrar cédulas: " + ex.getMessage());
+            }
+            
+            tf.setText(texto);
+            jComboBoxClienteCedula.showPopup();
+        }
+    });
+
+    // Evento para detectar cuándo cambian o seleccionan una cédula y mostrar el nombre
+    jComboBoxClienteCedula.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            actualizarNombreCliente();
+        }
+    });
+}
+
+private void actualizarNombreCliente() {
+    if (jComboBoxClienteCedula.getSelectedItem() == null) {
+        jLabelNombredeC.setText("Cliente No Seleccionado");
+        return;
+    }
+
+    String cedulaSeleccionada = jComboBoxClienteCedula.getSelectedItem().toString().trim();
+
+    if (cedulaSeleccionada.equals("000000") || cedulaSeleccionada.isEmpty()) {
+        jLabelNombredeC.setText("Cliente General");
+        return;
+    }
+
+    String sql = "SELECT nombre FROM clientes WHERE cedula = ?";
+    try (Connection con = new conexion().conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, cedulaSeleccionada);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                jLabelNombredeC.setText(rs.getString("nombre"));
+            } else {
+                // Si escribió una cédula que no existe aún en los registros
+                jLabelNombredeC.setText("Cliente No Registrado");
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Error al obtener nombre del cliente: " + e.getMessage());
+        jLabelNombredeC.setText("Error al cargar");
+    }
 }
 
 private int obtenerIdClientePorCedula() {
-    String comboVal = jComboBoxCliente.getSelectedItem() != null ? jComboBoxCliente.getSelectedItem().toString() : "000000";
-    if (comboVal.startsWith("000000")) return 1; // ID Genérico de control (Asegúrate de tener el ID 1 creado en tu BD)
+    if (jComboBoxClienteCedula.getSelectedItem() == null) return 1;
     
-    String cedula = comboVal.split(" - ")[0].trim();
+    String cedula = jComboBoxClienteCedula.getSelectedItem().toString().trim();
+    if (cedula.equals("000000") || cedula.isEmpty()) return 1; // ID Genérico de control
+    
     String sql = "SELECT id_cliente FROM clientes WHERE cedula = ?";
     try (Connection con = new conexion().conectar();
          PreparedStatement ps = con.prepareStatement(sql)) {
@@ -558,7 +717,7 @@ private int obtenerIdClientePorCedula() {
             if (rs.next()) return rs.getInt("id_cliente");
         }
     } catch (SQLException e) {
-        System.err.println(e.getMessage());
+        System.err.println("Error al obtener ID del cliente: " + e.getMessage());
     }
     return 1;
 }
@@ -671,13 +830,16 @@ private void procesarPagoCompleto(String metodoPago) {
 }
 
 private void limpiarSeccionBascula() {
-    jTextFieldPRODUCTOSELECCIONADO.setText("");
-    jTextFieldPRECIOPORKILO.setText("");
+    if (jComboBoxPRODUCTOSELECCIONADO.getItemCount() > 0) {
+        jComboBoxPRODUCTOSELECCIONADO.setSelectedIndex(0); // Regresa a "- Seleccione Producto -"
+    }
+    jTextFieldPRECIOPORKILO.setText(""); 
     jTextFieldPeso.setText("");
     jLabelValor.setText("$ 0.00");
     codigoProductoActual = "";
     stockActualProducto = 0.0;
-    jTextFieldPRODUCTOSELECCIONADO.requestFocus();
+    
+    jComboBoxPRODUCTOSELECCIONADO.requestFocus();
 }
 
 private void limpiarFormularioCompleto() {
@@ -685,24 +847,23 @@ private void limpiarFormularioCompleto() {
     modeloFactura.setRowCount(0);
     jLabelTotal.setText("$ 0.00");
     totalFactura = 0.0;
-    if (jComboBoxCliente.getItemCount() > 0) jComboBoxCliente.setSelectedIndex(0);
+    if (jComboBoxClienteCedula.getItemCount() > 0) {
+        jComboBoxClienteCedula.setSelectedIndex(0);
+    }
+    jLabelNombredeC.setText("Cliente General");
 }
     
     private void jTextFieldPRECIOPORKILOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPRECIOPORKILOActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPRECIOPORKILOActionPerformed
 
-    private void jTextFieldPRODUCTOSELECCIONADOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPRODUCTOSELECCIONADOActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPRODUCTOSELECCIONADOActionPerformed
-
     private void jTextFieldPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPesoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPesoActionPerformed
 
-    private void jComboBoxClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxClienteActionPerformed
+    private void jComboBoxClienteCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxClienteCedulaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxClienteActionPerformed
+    }//GEN-LAST:event_jComboBoxClienteCedulaActionPerformed
 
     private void jButtonEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEfectivoActionPerformed
   procesarPagoCompleto("Efectivo");
@@ -816,11 +977,12 @@ procesarPagoCompleto("Nequi");
     private javax.swing.JButton jButtonReportes;
     private javax.swing.JButton jButtonTarjeta;
     private javax.swing.JButton jButtonUsuarios;
-    private javax.swing.JComboBox<String> jComboBoxCliente;
+    private javax.swing.JComboBox<String> jComboBoxClienteCedula;
+    private javax.swing.JComboBox<String> jComboBoxPRODUCTOSELECCIONADO;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelATAJOSTECLADO;
     private javax.swing.JLabel jLabelBÁSCULA;
-    private javax.swing.JLabel jLabelCliente;
+    private javax.swing.JLabel jLabelClienteCedula;
     private javax.swing.JLabel jLabelDETALLEDELAFACTURAACTUAL;
     private javax.swing.JLabel jLabelEmpresa;
     private javax.swing.JLabel jLabelF1NuevaVenta;
@@ -828,6 +990,8 @@ procesarPagoCompleto("Nequi");
     private javax.swing.JLabel jLabelF3IngresarMerma;
     private javax.swing.JLabel jLabelF4CerrarCajaTurno;
     private javax.swing.JLabel jLabelMétodo;
+    private javax.swing.JLabel jLabelNdC;
+    private javax.swing.JLabel jLabelNombredeC;
     private javax.swing.JLabel jLabelPESOADESPACHAR;
     private javax.swing.JLabel jLabelPRECIOPORKILO;
     private javax.swing.JLabel jLabelPRODUCTOSELECCIONADO;
@@ -843,7 +1007,6 @@ procesarPagoCompleto("Nequi");
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableFactura;
     private javax.swing.JTextField jTextFieldPRECIOPORKILO;
-    private javax.swing.JTextField jTextFieldPRODUCTOSELECCIONADO;
     private javax.swing.JTextField jTextFieldPeso;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
