@@ -904,7 +904,12 @@ private void limpiarFormularioCompleto() {
     }//GEN-LAST:event_jButtonUsuariosActionPerformed
 
     private void jButtonReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReportesActionPerformed
-        // TODO add your handling code here:
+     
+        Reportes form1 = new Reportes();
+        jDesktopPane1.add(form1);
+        form1.setVisible(true);
+        
+// TODO add your handling code here:
     }//GEN-LAST:event_jButtonReportesActionPerformed
 
     private void jButtonCerrarSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarSesiónActionPerformed
